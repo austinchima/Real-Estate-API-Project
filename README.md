@@ -45,6 +45,7 @@ graph TD
 ## 🛠️ Technology Stack
 
 ### Backend
+
 - **Framework:** ASP.NET Core 6.0+
 - **Language:** C#
 - **ORM:** Entity Framework Core
@@ -53,6 +54,7 @@ graph TD
 - **Containerization:** Docker
 
 ### Frontend
+
 - **Framework:** React 18+
 - **Build Tool:** Vite
 - **Language:** TypeScript or JavaScript
@@ -60,6 +62,7 @@ graph TD
 - **Routing:** React Router
 
 ### Cloud Infrastructure
+
 - **Database:** AWS RDS (PostgreSQL/SQL Server)
 - **Container Registry:** AWS ECR
 - **Container Hosting:** AWS ECS Fargate
@@ -69,6 +72,7 @@ graph TD
 ## 📊 Data Models
 
 ### Property
+
 - Address, City, State, ZipCode
 - Price, Bedrooms, Bathrooms, SquareFeet
 - PropertyType, Status
@@ -76,12 +80,14 @@ graph TD
 - ListedDate, Description
 
 ### User
+
 - FirstName, LastName
 - Email, PhoneNumber
 - Address
 - CreatedDate, IsActive
 
 ### Realtor
+
 - FirstName, LastName
 - Email, PhoneNumber
 - LicenseNumber, Agency
@@ -102,19 +108,22 @@ graph TD
 ### Backend Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd RealEstateAPI
    ```
 
 2. **Install dependencies**
+
    ```bash
    dotnet restore
    ```
 
 3. **Update connection string**
-   
+
    Edit `appsettings.json`:
+
    ```json
    {
      "ConnectionStrings": {
@@ -124,54 +133,61 @@ graph TD
    ```
 
 4. **Run migrations**
+
    ```bash
    dotnet ef database update
    ```
 
 5. **Run the API**
+
    ```bash
    dotnet run
    ```
 
 6. **Access Swagger UI**
-   
+
    Navigate to: `https://localhost:5001/swagger`
 
 ### Frontend Setup
 
 1. **Create Vite React project**
+
    ```bash
    npm create vite@latest real-estate-client -- --template react-ts
    cd real-estate-client
    ```
-   
+
    Or for JavaScript:
+
    ```bash
    npm create vite@latest real-estate-client -- --template react
    cd real-estate-client
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    npm install axios react-router-dom
    ```
 
 3. **Configure environment variables**
-   
+
    Create `.env` file:
-   ```
+
+   ```bash
    VITE_API_BASE_URL=https://your-apigee-url.com/api
    VITE_API_KEY=your-api-key-here
    ```
 
 4. **Run development server**
+
    ```bash
    npm run dev
    ```
 
 5. **Access the application**
-   
+
    Navigate to: `http://localhost:5173`
 
 ## 🐳 Docker Deployment
@@ -235,6 +251,7 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
    - Proxy endpoint: `/api/*`
 
 2. **Add Verify API Key Policy**
+
    ```xml
    <VerifyAPIKey name="verify-api-key">
        <APIKey ref="request.header.x-api-key"/>
@@ -256,6 +273,7 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
 ## 📡 API Endpoints
 
 ### Properties
+
 - `GET /api/properties` - Get all properties
 - `GET /api/properties/{id}` - Get property by ID
 - `POST /api/properties` - Create new property
@@ -264,6 +282,7 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
 - `DELETE /api/properties/{id}` - Delete property
 
 ### Users
+
 - `GET /api/users` - Get all users
 - `GET /api/users/{id}` - Get user by ID
 - `POST /api/users` - Create new user
@@ -272,6 +291,7 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
 - `DELETE /api/users/{id}` - Delete user
 
 ### Realtors
+
 - `GET /api/realtors` - Get all realtors
 - `GET /api/realtors/{id}` - Get realtor by ID
 - `POST /api/realtors` - Create new realtor
@@ -353,21 +373,25 @@ This project addresses all requirements from the academic marking scheme:
 ### Common Issues
 
 **Database Connection Failed**
+
 - Verify RDS security group allows inbound connections
 - Check connection string format
 - Ensure RDS instance is publicly accessible (for development)
 
 **Docker Build Failed**
+
 - Verify Dockerfile syntax
 - Check .NET SDK version compatibility
 - Ensure all dependencies are restored
 
 **APigee 401 Unauthorized**
+
 - Verify API key is included in `x-api-key` header
 - Check API key is valid and not expired
 - Ensure API product includes the endpoint
 
 **React App Can't Connect to API**
+
 - Verify VITE_API_BASE_URL is correct in .env file
 - Check CORS configuration on API
 - Ensure APigee proxy is forwarding requests
