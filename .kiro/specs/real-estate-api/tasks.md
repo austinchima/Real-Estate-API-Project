@@ -226,11 +226,11 @@
     - _Requirements: 11.1, 11.2, 11.3_
 
 - [ ] 13. Create React web client application
-  - [ ] 13.1 Initialize React project
-    - Create React app with TypeScript or JavaScript
+  - [ ] 13.1 Initialize React project with Vite
+    - Create Vite React app with TypeScript or JavaScript template
     - Install dependencies (axios, react-router-dom)
     - Set up project folder structure (components, services, types, hooks)
-    - Configure environment variables for API URL and API key
+    - Configure environment variables (.env file with VITE_ prefix) for API URL and API key
     - _Requirements: 12.1_
 
   - [ ] 13.2 Create API client service
@@ -376,9 +376,9 @@
 
 - [ ] 18. Build and deploy React application to AWS S3
   - [ ] 18.1 Build React application for production
-    - Run production build command
-    - Verify build output in build/ directory
-    - Test built application locally
+    - Run production build command (npm run build)
+    - Verify build output in dist/ directory (Vite default)
+    - Test built application locally (npm run preview)
     - _Requirements: 12.4_
 
   - [ ] 18.2 Configure AWS S3 bucket for static hosting
@@ -390,7 +390,7 @@
     - _Requirements: 12.4_
 
   - [ ] 18.3 Deploy React build to S3
-    - Upload build files to S3 bucket
+    - Upload dist/ files to S3 bucket
     - Verify website is accessible via S3 URL
     - Test all functionality end-to-end
     - _Requirements: 12.4_

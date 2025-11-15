@@ -43,62 +43,25 @@ The Real Estate Data API system is a cloud-native, full-stack application built 
 
 ### High-Level Architecture Diagram
 
-```
-┌─────────────────┐
-│   End Users     │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────────────────┐
-│     React Web Client (AWS S3)           │
-│  - Components for CRUD operations       │
-│  - Axios HTTP client with API key       │
-└────────┬────────────────────────────────┘
-         │ HTTPS + API Key
-         ▼
-┌─────────────────────────────────────────┐
-│     Google APigee API Gateway           │
-│  - Verify API Key policy                │
-│  - Developer portal                     │
-│  - API Product management               │
-└────────┬────────────────────────────────┘
-         │ Authenticated requests
-         ▼
-┌─────────────────────────────────────────┐
-│   ASP.NET Core API (AWS ECS Fargate)    │
-│                                         │
-│  ┌───────────────────────────────────┐ │
-│  │     Controller Layer              │ │
-│  │  - PropertiesController           │ │
-│  │  - UsersController                │ │
-│  │  - RealtorsController             │ │
-│  │  - Swagger UI endpoint            │ │
-│  └──────────┬────────────────────────┘ │
-│             │                           │
-│  ┌──────────▼────────────────────────┐ │
-│  │     Service Layer                 │ │
-│  │  - PropertyService                │ │
-│  │  - UserService                    │ │
-│  │  - RealtorService                 │ │
-│  │  - Business logic & validation    │ │
-│  └──────────┬────────────────────────┘ │
-│             │                           │
-│  ┌──────────▼────────────────────────┐ │
-│  │     Repository Layer              │ │
-│  │  - IPropertyRepository            │ │
-│  │  - IUserRepository                │ │
-│  │  - IRealtorRepository             │ │
-│  │  - Entity Framework DbContext     │ │
-│  └──────────┬────────────────────────┘ │
-└─────────────┼─────────────────────────┘
-              │
-              ▼
-     ┌────────────────────┐
-     │   AWS RDS          │
-     │  - Properties      │
-     │  - Users           │
-     │  - Realtors        │
-     └────────────────────┘
+```mermaid
+graph TD
+    A[End Users]
+    B["React Web Client (AWS S3)\n- Components for CRUD operations\n- Axios HTTP client with API key"]
+    C["Google Apigee API Gateway\n- Verify API Key policy\n- Developer portal\n- API Product management"]
+    D["ASP.NET Core API (AWS ECS Fargate)"]
+    E["Controller Layer\n- PropertiesController\n- UsersController\n- RealtorsController\n- Swagger UI endpoint"]
+    F["Service Layer\n- PropertyService\n- UserService\n- RealtorService\n- Business logic & validation"]
+    G["Repository Layer\n- IPropertyRepository\n- IUserRepository\n- IRealtorRepository\n- Entity Framework DbContext"]
+    H["AWS RDS\n- Properties\n- Users\n- Realtors"]
+
+    A --> B
+    B -- "HTTPS + API Key" --> C
+    C -- "Authenticated requests" --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+
 ```
 
 ### Three-Layered Architecture

@@ -54,6 +54,7 @@ graph TD
 
 ### Frontend
 - **Framework:** React 18+
+- **Build Tool:** Vite
 - **Language:** TypeScript or JavaScript
 - **HTTP Client:** Axios
 - **Routing:** React Router
@@ -138,32 +139,40 @@ graph TD
 
 ### Frontend Setup
 
-1. **Navigate to client directory**
+1. **Create Vite React project**
    ```bash
+   npm create vite@latest real-estate-client -- --template react-ts
+   cd real-estate-client
+   ```
+   
+   Or for JavaScript:
+   ```bash
+   npm create vite@latest real-estate-client -- --template react
    cd real-estate-client
    ```
 
 2. **Install dependencies**
    ```bash
    npm install
+   npm install axios react-router-dom
    ```
 
 3. **Configure environment variables**
    
    Create `.env` file:
    ```
-   REACT_APP_API_BASE_URL=https://your-apigee-url.com/api
-   REACT_APP_API_KEY=your-api-key-here
+   VITE_API_BASE_URL=https://your-apigee-url.com/api
+   VITE_API_KEY=your-api-key-here
    ```
 
 4. **Run development server**
    ```bash
-   npm start
+   npm run dev
    ```
 
 5. **Access the application**
    
-   Navigate to: `http://localhost:3000`
+   Navigate to: `http://localhost:5173`
 
 ## 🐳 Docker Deployment
 
@@ -215,7 +224,7 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
 2. Enable static website hosting
 3. Configure bucket policy for public read access
 4. Build React app: `npm run build`
-5. Upload build files: `aws s3 sync build/ s3://your-bucket-name`
+5. Upload build files: `aws s3 sync dist/ s3://your-bucket-name`
 
 ## 🔐 APigee Configuration
 
@@ -359,7 +368,7 @@ This project addresses all requirements from the academic marking scheme:
 - Ensure API product includes the endpoint
 
 **React App Can't Connect to API**
-- Verify REACT_APP_API_BASE_URL is correct
+- Verify VITE_API_BASE_URL is correct in .env file
 - Check CORS configuration on API
 - Ensure APigee proxy is forwarding requests
 
