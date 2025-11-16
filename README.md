@@ -157,12 +157,6 @@ graph TD
    cd real-estate-client
    ```
 
-   Or for JavaScript:
-
-   ```bash
-   npm create vite@latest real-estate-client -- --template react
-   cd real-estate-client
-   ```
 
 2. **Install dependencies**
 
