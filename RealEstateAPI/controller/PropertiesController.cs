@@ -16,29 +16,35 @@ namespace RealEstateAPI.controller
     {
         private readonly IPropertyRepository _propertyRepository;
 
+        /// <summary> Constructor with dependency injection </summary>
+        /// <param name="propertyRepository"></param>
         public PropertiesController(IPropertyRepository propertyRepository)
         {
             _propertyRepository = propertyRepository;
         }
 
+        /// <summary>Gets all properties</summary>
         [HttpGet]
         public async Task<IEnumerable<Property>> GetAllPropertiesAsync()
         {
             return await _propertyRepository.GetAllAsync();
         }
 
+        /// <summary>Gets property by ID</summary>
         [HttpGet("{id}")]
         public async Task<Property?> GetPropertyByIdAsync(int id)
         {
             return await _propertyRepository.GetByIdAsync(id);
         }
 
+        /// <summary>Creates new property</summary>
         [HttpPost]
         public async Task<Property> CreatePropertyAsync(Property property)
         {
             return await _propertyRepository.CreateAsync(property);
         }
 
+        /// <summary>Updates property</summary>
         [HttpPut("{id}")]
         public async Task<Property> UpdateAsyncPropertyAsync(int id, Property property)
         {
@@ -52,6 +58,7 @@ namespace RealEstateAPI.controller
             return await _propertyRepository.UpdateAsync(property);
         }
 
+        /// <summary>Deletes property</summary>
         [HttpDelete("{id}")]
         public async Task<bool> DeletePropertyAsync(int id)
         {
