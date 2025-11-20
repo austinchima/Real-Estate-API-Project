@@ -1,7 +1,10 @@
+// Real Estate API - Main application entry point
+// Three-layered architecture: Controllers -> Services -> Repositories
 using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.Data;
 using RealEstateAPI.Repositories;
 using RealEstateAPI.Services;
+using RealEstateAPI.GlobalErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +16,12 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register Repositories
+// Register Repositories (Data Access Layer)
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRealtorRepository, RealtorRepository>();
 
-// Register Services
+// Register Services (Business Logic Layer)
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRealtorService, RealtorService>();
@@ -46,6 +49,10 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
+// Global error handling - catches all exceptions and returns consistent JSON responses
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
+// Enable Swagger documentation in development environment
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -56,10 +63,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Security and routing middleware
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
+// Map controller endpoints
 app.MapControllers();
 
+// Start the application
 app.Run();
