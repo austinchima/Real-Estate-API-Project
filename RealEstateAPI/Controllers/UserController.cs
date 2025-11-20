@@ -42,7 +42,7 @@ namespace RealEstateAPI.controller
         }
 
         /// <summary>Updates user</summary>
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<User> UpdateAsyncUserAsync(int id, User user)
         {
             var exists = await _userRepository.ExistsAsync(id);
