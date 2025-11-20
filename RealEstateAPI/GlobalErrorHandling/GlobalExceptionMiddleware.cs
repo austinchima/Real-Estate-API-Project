@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace RealEstateAPI.GlobalErrorHandling
 {
+    /// <summary>
+    /// Global exception handling middleware for consistent error responses
+    /// </summary>
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;

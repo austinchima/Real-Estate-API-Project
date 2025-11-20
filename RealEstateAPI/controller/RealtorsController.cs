@@ -4,6 +4,9 @@ using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI.controller
 {
+    /// <summary>
+    /// API Controller for Realtor CRUD operations
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class RealtorsController : ControllerBase

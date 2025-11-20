@@ -4,6 +4,12 @@ using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI.controller
 {
+    /// <summary>
+    /// API Controller for Property CRUD operations
+    /// </summary>
+    /// <summary>
+    /// API Controller for Property CRUD operations
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class PropertiesController : ControllerBase

@@ -18,6 +18,9 @@ namespace RealEstateAPI.Services
         Task AddPropertyToRealtorAsync(int realtorId, Property property);
     }
 
+    /// <summary>
+    /// Business logic layer for Realtor operations
+    /// </summary>
     public class RealtorService : IRealtorService
     {
         private readonly IRealtorRepository _realtorRepository;

@@ -16,6 +16,9 @@ namespace RealEstateAPI.Services
         Task DeleteUserAsync(int id);
     }
 
+    /// <summary>
+    /// Business logic layer for User operations
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

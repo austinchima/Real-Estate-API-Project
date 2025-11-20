@@ -14,6 +14,9 @@ namespace RealEstateAPI.Services
         Task<IEnumerable<Property>> GetPropertiesByRealtorAsync(int realtorId);
     }
 
+    /// <summary>
+    /// Business logic layer for Property operations
+    /// </summary>
     public class PropertyService : IPropertyService
     {
         private readonly IPropertyRepository _propertyRepository;
