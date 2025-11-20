@@ -33,9 +33,8 @@
 - [x] Task 8: Configure Swagger/OpenAPI documentation (COMPLETE)
 
 ## Currently Working On
-- [ ] Task 9: Configure and deploy database to AWS RDS
-  - [ ] 9.1 Create AWS RDS instance
-  - [ ] 9.2 Migrate database to AWS RDS
+- [ ] Task 9: Containerize API with Docker
+- [ ] Task 10: Deploy API to AWS ECS using Fargate
 
 ## Next Tasks
 - [ ] Create ER diagram for documentation

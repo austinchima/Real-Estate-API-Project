@@ -32,9 +32,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
   - [x] 4.1 Create repository interfaces
   - [x] 4.2 Implement repository classes
-- [ ] Task 9: Configure and deploy database to AWS RDS
-  - [ ] 9.1 Create AWS RDS instance
-  - [ ] 9.2 Migrate database to AWS RDS
+
 
 **Marking Scheme Coverage (~15 marks):**
 
@@ -80,11 +78,11 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [x] 6.3 Implement RealtorsController
 - [x] Task 7: Implement global error handling and validation
 - [x] Task 8: Configure Swagger/OpenAPI documentation
-- [ ] Task 10: Containerize API with Docker
-- [ ] Task 11: Deploy API to AWS ECS using Fargate
-  - [ ] 11.1 Push Docker image to AWS ECR
-  - [ ] 11.2 Create and configure ECS task definition
-  - [ ] 11.3 Run ECS task on Fargate
+- [ ] Task 9: Containerize API with Docker
+- [ ] Task 10: Deploy API to AWS ECS using Fargate
+  - [ ] 10.1 Push Docker image to AWS ECR
+  - [ ] 10.2 Create and configure ECS task definition
+  - [ ] 10.3 Run ECS task on Fargate
 
 **Marking Scheme Coverage (~20 marks):**
 
@@ -123,38 +121,38 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
 **Primary Responsibilities:**
 
-- [ ] Task 12: Configure Google APigee for API management
-  - [ ] 12.1 Create APigee API proxy
-  - [ ] 12.2 Implement API key verification policy
-  - [ ] 12.3 Create API product and developers
-  - [ ] 12.4 Generate developer portal
-- [ ] Task 13: Create React web client application
-  - [x] 13.1 Initialize React project
-  - [ ] 13.2 Create API client service
-  - [ ] 13.3 Create TypeScript types/interfaces
-  - [ ] 13.4 Implement property service layer
-  - [ ] 13.5 Implement user service layer
-  - [ ] 13.6 Implement realtor service layer
-- [ ] Task 14: Implement React components for Properties
-  - [ ] 14.1 Create PropertyList component
-  - [ ] 14.2 Create PropertyDetail component
-  - [ ] 14.3 Create PropertyForm component for create/edit
-  - [ ] 14.4 Implement property delete functionality
-- [ ] Task 15: Implement React components for Users
-  - [ ] 15.1 Create UserList component
-  - [ ] 15.2 Create UserDetail component
-  - [ ] 15.3 Create UserForm component for create/edit
-  - [ ] 15.4 Implement user delete functionality
-- [ ] Task 16: Implement React components for Realtors
-  - [ ] 16.1 Create RealtorList component
-  - [ ] 16.2 Create RealtorDetail component
-  - [ ] 16.3 Create RealtorForm component for create/edit
-  - [ ] 16.4 Implement realtor delete functionality
-- [ ] Task 17: Implement React routing and navigation
-- [ ] Task 18: Build and deploy React application to AWS S3
-  - [ ] 18.1 Build React application for production
-  - [ ] 18.2 Configure AWS S3 bucket for static hosting
-  - [ ] 18.3 Deploy React build to S3
+- [ ] Task 11: Configure Google APigee for API management
+  - [ ] 11.1 Create APigee API proxy
+  - [ ] 11.2 Implement API key verification policy
+  - [ ] 11.3 Create API product and developers
+  - [ ] 11.4 Generate developer portal
+- [ ] Task 12: Create React web client application
+  - [x] 12.1 Initialize React project
+  - [ ] 12.2 Create API client service
+  - [ ] 12.3 Create TypeScript types/interfaces
+  - [ ] 12.4 Implement property service layer
+  - [ ] 12.5 Implement user service layer
+  - [ ] 12.6 Implement realtor service layer
+- [ ] Task 13: Implement React components for Properties
+  - [ ] 13.1 Create PropertyList component
+  - [ ] 13.2 Create PropertyDetail component
+  - [ ] 13.3 Create PropertyForm component for create/edit
+  - [ ] 13.4 Implement property delete functionality
+- [ ] Task 14: Implement React components for Users
+  - [ ] 14.1 Create UserList component
+  - [ ] 14.2 Create UserDetail component
+  - [ ] 14.3 Create UserForm component for create/edit
+  - [ ] 14.4 Implement user delete functionality
+- [ ] Task 15: Implement React components for Realtors
+  - [ ] 15.1 Create RealtorList component
+  - [ ] 15.2 Create RealtorDetail component
+  - [ ] 15.3 Create RealtorForm component for create/edit
+  - [ ] 15.4 Implement realtor delete functionality
+- [ ] Task 16: Implement React routing and navigation
+- [ ] Task 17: Build and deploy React application to AWS S3
+  - [ ] 17.1 Build React application for production
+  - [ ] 17.2 Configure AWS S3 bucket for static hosting
+  - [ ] 17.3 Deploy React build to S3
 
 **Marking Scheme Coverage (~25 marks):**
 
@@ -188,7 +186,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
 ## Shared Responsibilities (All 3 Students)
 
-### Task 19: End-to-end testing and verification
+### Task 18: End-to-end testing and verification
 
 **Everyone participates:**
 
@@ -197,7 +195,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 - Student 3: Verify web client invokes all methods successfully
 - All: Test complete user flows end-to-end
 
-### Task 20: Create project documentation and presentation materials
+### Task 19: Create project documentation and presentation materials
 
 **Divide as follows:**
 
@@ -224,31 +222,31 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
 ### Week 3-4: Core Implementation
 
-- **Student 1:** Complete Task 9 (AWS RDS deployment)
+- **Student 1:** Complete AWS RDS deployment
 - **Student 2:** Complete Tasks 5-8 (services, controllers, Swagger)
-- **Student 3:** Start Task 13 (React project setup and service layer)
+- **Student 3:** Start Task 12 (React project setup and service layer)
 
 ### Week 5-7: Cloud Deployment & Integration
 
 - **Student 1:** Support integration, finalize documentation
-- **Student 2:** Complete Tasks 10-11 (Docker, ECS deployment)
-- **Student 3:** Complete Task 12 (APigee configuration)
+- **Student 2:** Complete Tasks 9-10 (Docker, ECS deployment)
+- **Student 3:** Complete Task 11 (APigee configuration)
 
 ### Week 8-9: Frontend Development
 
 - **Student 1:** Review and test API endpoints
 - **Student 2:** Support Student 3 with API issues
-- **Student 3:** Complete Tasks 14-17 (React components and routing)
+- **Student 3:** Complete Tasks 13-16 (React components and routing)
 
 ### Week 10: Final Integration & Testing
 
-- **Student 3:** Complete Task 18 (S3 deployment)
-- **All:** Complete Task 19 (end-to-end testing)
+- **Student 3:** Complete Task 17 (S3 deployment)
+- **All:** Complete Task 18 (end-to-end testing)
 - **All:** Fix any integration issues
 
 ### Week 11: Documentation & Presentation
 
-- **All:** Complete Task 20 (documentation and presentation prep)
+- **All:** Complete Task 19 (documentation and presentation prep)
 - **All:** Practice presentation and demo
 - **All:** Submit project and present
 
