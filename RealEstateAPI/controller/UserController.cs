@@ -1,81 +1,55 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateAPI.Models;
+using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI.controller
 {
-    public interface UserController<T>
-    {
-        
-        Task<IEnumerable<T>> GetAllUsersAsync();
-        Task<T?> GetUserByIdAsync(int id);
-        Task<T> CreateUserAsync(T user);
-        Task<T> UpdateAsyncUserAsync(int id, T user);
-        Task<bool> DeleteUserAsync(int id);
-    }
-
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase, UserController<Models.User>
+    public class UsersController : ControllerBase
     {
-        // Note: In a real application, you would inject a service or repository to handle data operations.
-        private static readonly List<Models.User> Users = new List<Models.User>();
-        private static int _nextId = 1;
+        private readonly IUserRepository _userRepository;
+
+        public UsersController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         [HttpGet]
-        public async Task<IEnumerable<Models.User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await Task.FromResult(Users);
+            return await _userRepository.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<Models.User?> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
-            return await Task.FromResult(user);
+            return await _userRepository.GetByIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<Models.User> CreateUserAsync(Models.User user)
+        public async Task<User> CreateUserAsync(User user)
         {
-            user.Id = _nextId++;
-            user.CreatedDate = DateTime.UtcNow;
-            Users.Add(user);
-            return await Task.FromResult(user);
+            return await _userRepository.CreateAsync(user);
         }
 
         [HttpPut("{id}")]
-        public async Task<Models.User> UpdateAsyncUserAsync(int id, Models.User user)
+        public async Task<User> UpdateAsyncUserAsync(int id, User user)
         {
-            var existingUser = Users.FirstOrDefault(u => u.Id == id);
-            if (existingUser == null)
+            var exists = await _userRepository.ExistsAsync(id);
+            if (!exists)
             {
                 throw new KeyNotFoundException("User not found");
             }
-
-            existingUser.FirstName = user.FirstName;
-            existingUser.LastName = user.LastName;
-            existingUser.Email = user.Email;
-            existingUser.PhoneNumber = user.PhoneNumber;
-            existingUser.Address = user.Address;
-            existingUser.IsActive = user.IsActive;
-
-            return await Task.FromResult(existingUser);
+            
+            user.Id = id;
+            return await _userRepository.UpdateAsync(user);
         }
 
         [HttpDelete("{id}")]
         public async Task<bool> DeleteUserAsync(int id)
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return await Task.FromResult(false);
-            }
-
-            user.IsActive = false;
-            return await Task.FromResult(true);
+            return await _userRepository.DeleteAsync(id);
         }
     }
 }

@@ -1,82 +1,55 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateAPI.Models;
+using RealEstateAPI.Repositories;
 
 namespace RealEstateAPI.controller
 {
-    public interface IRealtorsController<T>
-    {
-        Task<IEnumerable<T>> GetAllRealtorsAsync();
-        Task<T?> GetRealtorByIdAsync(int id);
-        Task<T> CreateRealtorAsync(T realtor);
-        Task<T> UpdateAsyncRealtorAsync(int id, T realtor);
-        Task<bool> DeleteRealtorAsync(int id);
-    }
-
     [ApiController]
     [Route("api/[controller]")]
-    public class RealtorsController : ControllerBase, IRealtorsController<Models.Realtor>
+    public class RealtorsController : ControllerBase
     {
-        private static readonly List<Models.Realtor> Realtors = new List<Models.Realtor>();
-        private static int _nextId = 1;
+        private readonly IRealtorRepository _realtorRepository;
+
+        public RealtorsController(IRealtorRepository realtorRepository)
+        {
+            _realtorRepository = realtorRepository;
+        }
 
         [HttpGet]
-        public async Task<IEnumerable<Models.Realtor>> GetAllRealtorsAsync()
+        public async Task<IEnumerable<Realtor>> GetAllRealtorsAsync()
         {
-            return await Task.FromResult(Realtors);
+            return await _realtorRepository.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<Models.Realtor?> GetRealtorByIdAsync(int id)
+        public async Task<Realtor?> GetRealtorByIdAsync(int id)
         {
-            var realtor = Realtors.FirstOrDefault(r => r.Id == id);
-            return await Task.FromResult(realtor);
+            return await _realtorRepository.GetByIdAsync(id);
         }
 
         [HttpPost]
-        public async Task<Models.Realtor> CreateRealtorAsync(Models.Realtor realtor)
+        public async Task<Realtor> CreateRealtorAsync(Realtor realtor)
         {
-            realtor.Id = _nextId++;
-            realtor.IsActive = true;
-            Realtors.Add(realtor);
-            return await Task.FromResult(realtor);
+            return await _realtorRepository.CreateAsync(realtor);
         }
 
         [HttpPut("{id}")]
-        public async Task<Models.Realtor> UpdateAsyncRealtorAsync(int id, Models.Realtor realtor)
+        public async Task<Realtor> UpdateAsyncRealtorAsync(int id, Realtor realtor)
         {
-            var existingRealtor = Realtors.FirstOrDefault(r => r.Id == id);
-            if (existingRealtor == null)
+            var exists = await _realtorRepository.ExistsAsync(id);
+            if (!exists)
             {
                 throw new KeyNotFoundException("Realtor not found");
             }
-
-            existingRealtor.FirstName = realtor.FirstName;
-            existingRealtor.LastName = realtor.LastName;
-            existingRealtor.Email = realtor.Email;
-            existingRealtor.PhoneNumber = realtor.PhoneNumber;
-            existingRealtor.LicenseNumber = realtor.LicenseNumber;
-            existingRealtor.Agency = realtor.Agency;
-            existingRealtor.YearsOfExperience = realtor.YearsOfExperience;
-            existingRealtor.Specialization = realtor.Specialization;
-            existingRealtor.IsActive = realtor.IsActive;
-
-            return await Task.FromResult(existingRealtor);
+            
+            realtor.Id = id;
+            return await _realtorRepository.UpdateAsync(realtor);
         }
 
         [HttpDelete("{id}")]
         public async Task<bool> DeleteRealtorAsync(int id)
         {
-            var realtor = Realtors.FirstOrDefault(r => r.Id == id);
-            if (realtor == null)
-            {
-                return await Task.FromResult(false);
-            }
-
-            realtor.IsActive = false;
-            return await Task.FromResult(true);
+            return await _realtorRepository.DeleteAsync(id);
         }
     }
 }
