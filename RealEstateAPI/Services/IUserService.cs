@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateAPI.Services
 {
-    public interface IRealtor
+    public interface IUserService
     {
         
     }

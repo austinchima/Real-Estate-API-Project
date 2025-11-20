@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstateAPI.Data;
 using RealEstateAPI.Repositories;
+using RealEstateAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,11 @@ builder.Services.AddDbContext<RealEstateDbContext>(options =>
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRealtorRepository, RealtorRepository>();
+
+// Register Services
+builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRealtorService, RealtorService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
