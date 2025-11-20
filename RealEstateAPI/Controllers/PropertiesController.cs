@@ -2,11 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateAPI.Models;
 using RealEstateAPI.Repositories;
 
-namespace RealEstateAPI.controller
+namespace RealEstateAPI.Controllers
 {
-    /// <summary>
-    /// API Controller for Property CRUD operations
-    /// </summary>
     /// <summary>
     /// API Controller for Property CRUD operations
     /// </summary>
@@ -16,8 +13,7 @@ namespace RealEstateAPI.controller
     {
         private readonly IPropertyRepository _propertyRepository;
 
-        /// <summary> Constructor with dependency injection </summary>
-        /// <param name="propertyRepository"></param>
+        /// <summary>Constructor with dependency injection</summary>
         public PropertiesController(IPropertyRepository propertyRepository)
         {
             _propertyRepository = propertyRepository;
@@ -25,44 +21,64 @@ namespace RealEstateAPI.controller
 
         /// <summary>Gets all properties</summary>
         [HttpGet]
-        public async Task<IEnumerable<Property>> GetAllPropertiesAsync()
+        public async Task<ActionResult<IEnumerable<Property>>> GetAllPropertiesAsync()
         {
-            return await _propertyRepository.GetAllAsync();
+            var properties = await _propertyRepository.GetAllAsync();
+            return Ok(properties);
         }
 
         /// <summary>Gets property by ID</summary>
         [HttpGet("{id}")]
-        public async Task<Property?> GetPropertyByIdAsync(int id)
+        public async Task<ActionResult<Property>> GetPropertyByIdAsync(int id)
         {
-            return await _propertyRepository.GetByIdAsync(id);
+            var property = await _propertyRepository.GetByIdAsync(id);
+            if (property == null)
+                return NotFound();
+            return Ok(property);
         }
 
         /// <summary>Creates new property</summary>
         [HttpPost]
-        public async Task<Property> CreatePropertyAsync(Property property)
+        public async Task<ActionResult<Property>> CreatePropertyAsync(Property property)
         {
-            return await _propertyRepository.CreateAsync(property);
+            var created = await _propertyRepository.CreateAsync(property);
+            return CreatedAtAction(nameof(GetPropertyByIdAsync), new { id = created.Id }, created);
         }
 
-        /// <summary>Updates property</summary>
-        [HttpPatch("{id}")]
-        public async Task<Property> UpdateAsyncPropertyAsync(int id, Property property)
+        /// <summary>Updates entire property</summary>
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Property>> UpdatePropertyAsync(int id, Property property)
         {
             var exists = await _propertyRepository.ExistsAsync(id);
             if (!exists)
-            {
-                throw new KeyNotFoundException("Property not found");
-            }
+                return NotFound();
             
             property.Id = id;
-            return await _propertyRepository.UpdateAsync(property);
+            var updated = await _propertyRepository.UpdateAsync(property);
+            return Ok(updated);
+        }
+
+        /// <summary>Partially updates property</summary>
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Property>> PatchPropertyAsync(int id, Property property)
+        {
+            var exists = await _propertyRepository.ExistsAsync(id);
+            if (!exists)
+                return NotFound();
+            
+            property.Id = id;
+            var updated = await _propertyRepository.UpdateAsync(property);
+            return Ok(updated);
         }
 
         /// <summary>Deletes property</summary>
         [HttpDelete("{id}")]
-        public async Task<bool> DeletePropertyAsync(int id)
+        public async Task<ActionResult> DeletePropertyAsync(int id)
         {
-            return await _propertyRepository.DeleteAsync(id);
+            var deleted = await _propertyRepository.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+            return NoContent();
         }
     }
 }
