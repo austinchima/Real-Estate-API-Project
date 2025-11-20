@@ -5,7 +5,6 @@ using RealEstateAPI.Data;
 using RealEstateAPI.Repositories;
 using RealEstateAPI.Services;
 using RealEstateAPI.GlobalErrorHandling;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
