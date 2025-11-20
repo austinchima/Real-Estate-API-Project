@@ -15,21 +15,15 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 **Primary Responsibilities:**
 
 - [x] Task 1: Set up project structure and core infrastructure
-
 - [x] Task 2: Implement data models and database configuration
-
   - [x] 2.1 Create entity models for Property, User, and Realtor
   - [x] 2.2 Configure Entity Framework DbContext and relationships
   - [x] 2.3 Create and apply initial database migration
   - [x] 2.4 Seed database with sample data
 - [x] Task 3: Implement DTOs and AutoMapper configuration
-
-
   - [x] 3.1 Create DTO classes for all entities
   - [x] 3.2 Configure AutoMapper profiles
-
 - [x] Task 4: Implement Repository Pattern for data access
-
   - [x] 4.1 Create repository interfaces
   - [x] 4.2 Implement repository classes
 
