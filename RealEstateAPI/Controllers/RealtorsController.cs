@@ -71,13 +71,16 @@ namespace RealEstateAPI.Controllers
             return Ok(updated);
         }
 
-        /// <summary>Deletes realtor</summary>
+        /// <summary>Deletes realtor (logical delete)</summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRealtorAsync(int id)
         {
-            var deleted = await _realtorRepository.DeleteAsync(id);
-            if (!deleted)
+            var realtor = await _realtorRepository.GetByIdAsync(id);
+            if (realtor == null)
                 return NotFound();
+            
+            realtor.IsActive = false;
+            await _realtorRepository.UpdateAsync(realtor);
             return NoContent();
         }
     }
