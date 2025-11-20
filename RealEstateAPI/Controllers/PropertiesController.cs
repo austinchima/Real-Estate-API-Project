@@ -75,8 +75,12 @@ namespace RealEstateAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePropertyAsync(int id)
         {
-            var deleted = await _propertyRepository.DeleteAsync(id);
-            if (!deleted)
+            var property = await _propertyRepository.GetByIdAsync(id);
+            if (property == null)
+                return NotFound();
+            property.IsDeleted = true;
+            var updated = await _propertyRepository.UpdateAsync(property);
+            if (!updated)
                 return NotFound();
             return NoContent();
         }
