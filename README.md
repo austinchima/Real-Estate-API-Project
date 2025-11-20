@@ -316,51 +316,29 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest
 2. Use UI to perform CRUD operations
 3. Verify data persistence
 
-## 👥 Team Members
+## 👥 Development Team
 
-This project was developed by a team of 3 students:
+This project was developed by a team of 3 developers:
 
-- **Student 1:** Backend Core & Data Layer (Database, Repositories, DTOs)
-- **Student 2:** API & Cloud Deployment (Controllers, Services, Docker, ECS)
-- **Student 3:** API Management & Frontend (APigee, React Application)
+- **Developer 1:** Backend Core & Data Layer (Database, Repositories, DTOs)
+- **Developer 2:** API & Cloud Deployment (Controllers, Services, Docker, ECS)
+- **Developer 3:** API Management & Frontend (APigee, React Application)
 
 ## 📚 Documentation
 
-- **Requirements:** `.kiro/specs/real-estate-api/requirements.md`
-- **Design:** `.kiro/specs/real-estate-api/design.md`
-- **Tasks:** `.kiro/specs/real-estate-api/tasks.md`
-- **Team Assignments:** `.kiro/specs/real-estate-api/team-assignments.md`
 - **API Documentation:** Available at `/swagger` endpoint
+- **Architecture Design:** Comprehensive system design documentation
+- **Requirements:** Detailed functional and technical requirements
+- **Implementation Guide:** Step-by-step development tasks
 
 ## 🎯 Project Goals
 
-- Demonstrate three-layered architecture with Repository Pattern
-- Implement complete RESTful API with all HTTP methods
+- Implement three-layered architecture with Repository Pattern
+- Build complete RESTful API with all HTTP methods
 - Deploy full-stack application on AWS cloud infrastructure
 - Integrate API gateway for security and access control
-- Build responsive React frontend consuming the API
+- Create responsive React frontend consuming the API
 - Follow industry best practices and coding standards
-
-## 📝 Marking Scheme Coverage
-
-This project addresses all requirements from the academic marking scheme:
-
-- ✅ Proposal (5%)
-- ✅ Implementation (60 marks):
-  - Data in AWS RDS (3 marks)
-  - Repository Pattern (2 marks)
-  - DTOs & AutoMapper (5.5 marks)
-  - All HTTP methods for 3 controllers (11.5 marks)
-  - Docker & ECR (2 marks)
-  - ECS Fargate deployment (4 marks)
-  - APigee configuration (7 marks)
-  - Web client with all operations (19 marks)
-  - Overall quality (5 marks)
-- ✅ Presentation & Report (20%):
-  - Functionality demonstration
-  - Architecture documentation
-  - Data modeling
-  - Lessons learned
 
 ## 🔧 Troubleshooting
 
@@ -392,22 +370,16 @@ This project addresses all requirements from the academic marking scheme:
 
 ## 📄 License
 
-This project is developed for academic purposes as part of a college assignment.
+This project is developed for demonstration and educational purposes.
 
 ## 🙏 Acknowledgments
 
-- Course instructors for project guidance
 - AWS documentation and tutorials
 - Google APigee documentation
 - Microsoft ASP.NET Core documentation
 - React documentation
+- Open source community contributions
 
 ## 📞 Contact
 
-For questions or issues, please contact the development team or refer to the project documentation in the `.kiro/specs/real-estate-api/` directory.
-
----
-
-**Submission Date:** Week 11 Sunday (Midnight)
-
-**Demonstration:** In-person or online (pre-recorded videos not accepted)
+For questions or issues, please contact the development team or refer to the project documentation.
