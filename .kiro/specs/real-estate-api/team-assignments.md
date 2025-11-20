@@ -76,7 +76,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [ ] 5.4 Implement RealtorService
 - [ ] Task 6: Implement API Controllers with all HTTP methods
   - [ ] 6.1 Implement PropertiesController
-  - [ ] 6.2 Implement UsersController
+  - [x] 6.2 Implement UsersController
   - [ ] 6.3 Implement RealtorsController
 - [ ] Task 7: Implement global error handling and validation
 - [ ] Task 8: Configure Swagger/OpenAPI documentation
