@@ -74,10 +74,10 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [ ] 5.2 Implement PropertyService
   - [ ] 5.3 Implement UserService
   - [ ] 5.4 Implement RealtorService
-- [ ] Task 6: Implement API Controllers with all HTTP methods
+- [x] Task 6: Implement API Controllers with all HTTP methods
   - [x] 6.1 Implement PropertiesController
   - [x] 6.2 Implement UsersController
-  - [ ] 6.3 Implement RealtorsController
+  - [x] 6.3 Implement RealtorsController
 - [ ] Task 7: Implement global error handling and validation
 - [ ] Task 8: Configure Swagger/OpenAPI documentation
 - [ ] Task 10: Containerize API with Docker

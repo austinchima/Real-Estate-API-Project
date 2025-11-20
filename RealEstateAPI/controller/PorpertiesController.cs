@@ -79,7 +79,7 @@ namespace RealEstateAPI.controller
                 return await Task.FromResult(false);
             }
 
-            Properties.Remove(property);
+            property.Status = "Deleted";
             return await Task.FromResult(true);
         }
     }
