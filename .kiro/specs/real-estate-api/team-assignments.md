@@ -69,11 +69,11 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
 **Primary Responsibilities:**
 
-- [ ] Task 5: Implement Service Layer with business logic
-  - [ ] 5.1 Create service interfaces
-  - [ ] 5.2 Implement PropertyService
-  - [ ] 5.3 Implement UserService
-  - [ ] 5.4 Implement RealtorService
+- [x] Task 5: Implement Service Layer with business logic
+  - [x] 5.1 Create service interfaces
+  - [x] 5.2 Implement PropertyService
+  - [x] 5.3 Implement UserService
+  - [x] 5.4 Implement RealtorService
 - [x] Task 6: Implement API Controllers with all HTTP methods
   - [x] 6.1 Implement PropertiesController
   - [x] 6.2 Implement UsersController
