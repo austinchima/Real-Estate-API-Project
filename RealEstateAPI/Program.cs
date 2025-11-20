@@ -5,6 +5,7 @@ using RealEstateAPI.Data;
 using RealEstateAPI.Repositories;
 using RealEstateAPI.Services;
 using RealEstateAPI.GlobalErrorHandling;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,10 @@ builder.Services.AddSwaggerGen(options =>
             Email = "team@realestate.com"
         }
     });
+
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();
