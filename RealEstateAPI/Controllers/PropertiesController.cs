@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RealEstateAPI.Models;
-using RealEstateAPI.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
+using RealEstateAPI.Services;
+using RealEstateAPI.DTOs;
 
 namespace RealEstateAPI.Controllers
 {
@@ -11,76 +13,90 @@ namespace RealEstateAPI.Controllers
     [Route("api/[controller]")]
     public class PropertiesController : ControllerBase
     {
-        private readonly IPropertyRepository _propertyRepository;
+        private readonly IPropertyService _propertyService;
+        private readonly IMapper _mapper;
 
         /// <summary>Constructor with dependency injection</summary>
-        public PropertiesController(IPropertyRepository propertyRepository)
+        public PropertiesController(IPropertyService propertyService, IMapper mapper)
         {
-            _propertyRepository = propertyRepository;
+            _propertyService = propertyService;
+            _mapper = mapper;
         }
 
         /// <summary>Gets all properties</summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Property>>> GetAllPropertiesAsync()
+        public async Task<ActionResult<IEnumerable<PropertyReadDto>>> GetAllPropertiesAsync()
         {
-            var properties = await _propertyRepository.GetAllAsync();
-            return Ok(properties);
+            var properties = await _propertyService.GetAllPropertiesAsync();
+            var propertyDtos = _mapper.Map<IEnumerable<PropertyReadDto>>(properties);
+            return Ok(propertyDtos);
         }
 
         /// <summary>Gets property by ID</summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Property>> GetPropertyByIdAsync(int id)
+        public async Task<ActionResult<PropertyReadDto>> GetPropertyByIdAsync(int id)
         {
-            var property = await _propertyRepository.GetByIdAsync(id);
+            var property = await _propertyService.GetPropertyByIdAsync(id);
             if (property == null)
                 return NotFound();
-            return Ok(property);
+            
+            var propertyDto = _mapper.Map<PropertyReadDto>(property);
+            return Ok(propertyDto);
         }
 
         /// <summary>Creates new property</summary>
         [HttpPost]
-        public async Task<ActionResult<Property>> CreatePropertyAsync(Property property)
+        public async Task<ActionResult<PropertyReadDto>> CreatePropertyAsync(PropertyCreateDto propertyCreateDto)
         {
-            var created = await _propertyRepository.CreateAsync(property);
-            return CreatedAtAction(nameof(GetPropertyByIdAsync), new { id = created.Id }, created);
+            var property = _mapper.Map<RealEstateAPI.Models.Property>(propertyCreateDto);
+            var created = await _propertyService.CreatePropertyAsync(property);
+            var createdDto = _mapper.Map<PropertyReadDto>(created);
+            return CreatedAtAction(nameof(GetPropertyByIdAsync), new { id = created.Id }, createdDto);
         }
 
         /// <summary>Updates entire property</summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<Property>> UpdatePropertyAsync(int id, Property property)
+        public async Task<ActionResult<PropertyReadDto>> UpdatePropertyAsync(int id, PropertyUpdateDto propertyUpdateDto)
         {
-            var exists = await _propertyRepository.ExistsAsync(id);
-            if (!exists)
+            try
+            {
+                var property = _mapper.Map<RealEstateAPI.Models.Property>(propertyUpdateDto);
+                var updated = await _propertyService.UpdatePropertyAsync(id, property);
+                var updatedDto = _mapper.Map<PropertyReadDto>(updated);
+                return Ok(updatedDto);
+            }
+            catch (KeyNotFoundException)
+            {
                 return NotFound();
-            
-            property.Id = id;
-            var updated = await _propertyRepository.UpdateAsync(property);
-            return Ok(updated);
+            }
         }
 
         /// <summary>Partially updates property</summary>
         [HttpPatch("{id}")]
-        public async Task<ActionResult<Property>> PatchPropertyAsync(int id, Property property)
+        public async Task<ActionResult<PropertyReadDto>> PatchPropertyAsync(int id, JsonPatchDocument<PropertyUpdateDto> patchDoc)
         {
-            var exists = await _propertyRepository.ExistsAsync(id);
-            if (!exists)
+            var property = await _propertyService.GetPropertyByIdAsync(id);
+            if (property == null)
                 return NotFound();
-            
-            property.Id = id;
-            var updated = await _propertyRepository.UpdateAsync(property);
-            return Ok(updated);
+
+            var propertyToPatch = _mapper.Map<PropertyUpdateDto>(property);
+            patchDoc.ApplyTo(propertyToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _mapper.Map(propertyToPatch, property);
+            var updated = await _propertyService.UpdatePropertyAsync(id, property);
+            var updatedDto = _mapper.Map<PropertyReadDto>(updated);
+            return Ok(updatedDto);
         }
 
         /// <summary>Deletes property</summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePropertyAsync(int id)
         {
-            var property = await _propertyRepository.GetByIdAsync(id);
-            if (property == null)
-                return NotFound();
-            property.IsDeleted = true;
-            var updated = await _propertyRepository.UpdateAsync(property);
-            if (!updated)
+            var deleted = await _propertyService.DeletePropertyAsync(id);
+            if (!deleted)
                 return NotFound();
             return NoContent();
         }
