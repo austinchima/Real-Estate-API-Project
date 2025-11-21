@@ -33,13 +33,19 @@
 - [x] Task 8: Configure Swagger/OpenAPI documentation (COMPLETE)
 
 ## Currently Working On
-- [ ] Task 9: Containerize API with Docker
-- [ ] Task 10: Deploy API to AWS ECS using Fargate
+- [x] Task 9: Containerize API with Docker (READY)
+  - [x] Created Dockerfile with proper .NET 8.0 configuration
+  - [x] Added .dockerignore file
+  - [x] Configured EXPOSE directives for ports 80 and 443
+  - [x] Ready for docker build and local testing
 
 ## Next Tasks
+- [ ] Task 10: Deploy API to AWS ECS using Fargate
+  - [ ] 10.1 Push Docker image to AWS ECR
+  - [ ] 10.2 Create and configure ECS task definition
+  - [ ] 10.3 Run ECS task on Fargate
 - [ ] Create ER diagram for documentation
 - [ ] Prepare data modeling documentation
-- [ ] Support team with integration testing
 
 ## Notes
 - Repository cloned successfully from https://github.com/austinchima/Real-Estate-API-Project
