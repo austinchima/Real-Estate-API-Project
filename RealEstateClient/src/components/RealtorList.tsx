@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import  type { Realtor } from '../types';
+import { Realtor } from '../types';
 import { realtorService } from '../services';
+import { Container, Typography, Card, CardContent, Grid, CircularProgress, Box, Chip } from '@mui/material';
 
 export const RealtorList = () => {
   const [realtors, setRealtors] = useState<Realtor[]>([]);
@@ -21,20 +22,41 @@ export const RealtorList = () => {
     fetchRealtors();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>;
 
   return (
-    <div>
-      <h2>Realtors</h2>
-      {realtors.map(realtor => (
-        <div key={realtor.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-          <h3>{realtor.firstName} {realtor.lastName}</h3>
-          <p>Agency: {realtor.agency}</p>
-          <p>License: {realtor.licenseNumber}</p>
-          <p>Experience: {realtor.yearsOfExperience} years</p>
-          <p>Status: {realtor.isActive ? 'Active' : 'Inactive'}</p>
-        </div>
-      ))}
-    </div>
+    <Container maxWidth="lg">
+      <Typography variant="h4" component="h2" gutterBottom>
+        Realtors
+      </Typography>
+      <Grid container spacing={3}>
+        {realtors.map(realtor => (
+          <Grid item xs={12} md={6} lg={4} key={realtor.id}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="h3">
+                  {realtor.firstName} {realtor.lastName}
+                </Typography>
+                <Typography color="textSecondary" gutterBottom>
+                  {realtor.agency}
+                </Typography>
+                <Typography variant="body2">
+                  License: {realtor.licenseNumber}
+                </Typography>
+                <Typography variant="body2">
+                  Experience: {realtor.yearsOfExperience} years
+                </Typography>
+                <Box mt={1}>
+                  <Chip 
+                    label={realtor.isActive ? 'Active' : 'Inactive'} 
+                    color={realtor.isActive ? 'success' : 'default'}
+                  />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };

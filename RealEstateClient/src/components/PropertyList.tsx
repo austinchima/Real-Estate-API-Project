@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import  type { Property } from '../types';
+import { Property } from '../types';
 import { propertyService } from '../services';
+import { Container, Typography, Card, CardContent, Grid, CircularProgress, Box } from '@mui/material';
 
 export const PropertyList = () => {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -21,19 +22,35 @@ export const PropertyList = () => {
     fetchProperties();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>;
 
   return (
-    <div>
-      <h2>Properties</h2>
-      {properties.map(property => (
-        <div key={property.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-          <h3>{property.address}</h3>
-          <p>{property.city}, {property.state} {property.zipCode}</p>
-          <p>Price: ${property.price.toLocaleString()}</p>
-          <p>{property.bedrooms} bed, {property.bathrooms} bath</p>
-        </div>
-      ))}
-    </div>
+    <Container maxWidth="lg">
+      <Typography variant="h4" component="h2" gutterBottom>
+        Properties
+      </Typography>
+      <Grid container spacing={3}>
+        {properties.map(property => (
+          <Grid item xs={12} md={6} lg={4} key={property.id}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="h3">
+                  {property.address}
+                </Typography>
+                <Typography color="textSecondary">
+                  {property.city}, {property.state} {property.zipCode}
+                </Typography>
+                <Typography variant="h6" color="primary">
+                  ${property.price.toLocaleString()}
+                </Typography>
+                <Typography variant="body2">
+                  {property.bedrooms} bed, {property.bathrooms} bath
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
-};
+};}
