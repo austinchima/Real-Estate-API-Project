@@ -80,8 +80,8 @@ SELECT COUNT(*) FROM Realtors;    -- Should be 10
 
 ## 📚 Need More Help?
 
-- **Detailed guide**: See `AWS_RDS_SETUP.md`
-- **Full instructions**: See `TASK_9_INSTRUCTIONS.md`
+- **Detailed guide**: See [AWS_RDS_SETUP.md](AWS_RDS_SETUP.md)
+- **Full instructions**: See [TASK_9_INSTRUCTIONS.md](TASK_9_INSTRUCTIONS.md)
 - **Troubleshooting**: Check TASK_9_INSTRUCTIONS.md → Troubleshooting section
 
 ## 🚨 Common Issues
@@ -104,6 +104,7 @@ To avoid charges: Delete instance when done testing
 ## 🎉 Done?
 
 Mark these as complete in `tasks.md`:
+
 - [x] 9.1 Create AWS RDS instance
 - [x] 9.2 Migrate database to AWS RDS
 - [x] 9. Configure and deploy database to AWS RDS
