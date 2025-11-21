@@ -72,7 +72,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [x] 6.3 Implement RealtorsController
 - [x] Task 7: Implement global error handling and validation
 - [x] Task 8: Configure Swagger/OpenAPI documentation
-- [ ] Task 9: Containerize API with Docker
+- [x] Task 9: Containerize API with Docker
 - [ ] Task 10: Deploy API to AWS ECS using Fargate
   - [ ] 10.1 Push Docker image to AWS ECR
   - [ ] 10.2 Create and configure ECS task definition
