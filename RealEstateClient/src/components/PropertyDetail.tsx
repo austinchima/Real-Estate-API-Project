@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Property } from '../types';
+import type { Property } from '../types';
 import { propertyService } from '../services';
-import { Container, Typography, Card, CardContent, CircularProgress, Box, Chip } from '@mui/material';
 
 interface PropertyDetailProps {
   propertyId: number;
@@ -26,38 +25,20 @@ export const PropertyDetail = ({ propertyId }: PropertyDetailProps) => {
     fetchProperty();
   }, [propertyId]);
 
-  if (loading) return <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>;
-  if (!property) return <Typography variant="h6" align="center">Property not found</Typography>;
+  if (loading) return <div>Loading...</div>;
+  if (!property) return <div>Property not found</div>;
 
   return (
-    <Container maxWidth="md">
-      <Card>
-        <CardContent>
-          <Typography variant="h4" component="h2" gutterBottom>
-            {property.address}
-          </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
-            {property.city}, {property.state} {property.zipCode}
-          </Typography>
-          <Typography variant="h5" color="primary" gutterBottom>
-            ${property.price.toLocaleString()}
-          </Typography>
-          <Box display="flex" gap={1} mb={2}>
-            <Chip label={`${property.bedrooms} bed`} />
-            <Chip label={`${property.bathrooms} bath`} />
-            <Chip label={`${property.squareFeet} sq ft`} />
-          </Box>
-          <Typography variant="body1" paragraph>
-            <strong>Type:</strong> {property.propertyType}
-          </Typography>
-          <Typography variant="body1" paragraph>
-            <strong>Status:</strong> {property.status}
-          </Typography>
-          <Typography variant="body1" paragraph>
-            <strong>Description:</strong> {property.description}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Container>
+    <div style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <h2>{property.address}</h2>
+      <p>{property.city}, {property.state} {property.zipCode}</p>
+      <p><strong>Price:</strong> ${property.price.toLocaleString()}</p>
+      <p><strong>Bedrooms:</strong> {property.bedrooms}</p>
+      <p><strong>Bathrooms:</strong> {property.bathrooms}</p>
+      <p><strong>Square Feet:</strong> {property.squareFeet}</p>
+      <p><strong>Type:</strong> {property.propertyType}</p>
+      <p><strong>Status:</strong> {property.status}</p>
+      <p><strong>Description:</strong> {property.description}</p>
+    </div>
   );
 };

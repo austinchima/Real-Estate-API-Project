@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Property } from '../types';
+import type { Property } from '../types';
 import { propertyService } from '../services';
-import { Container, TextField, Button, Box, Typography } from '@mui/material';
 
 interface PropertyFormProps {
   property?: Property;
@@ -38,55 +37,44 @@ export const PropertyForm = ({ property, onSave }: PropertyFormProps) => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h5" gutterBottom>
-        {property ? 'Update' : 'Create'} Property
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-        <TextField
-          fullWidth
-          label="Address"
-          value={formData.address}
+    <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '20px' }}>
+      <div>
+        <label>Address:</label>
+        <input 
+          type="text" 
+          value={formData.address} 
           onChange={(e) => setFormData({...formData, address: e.target.value})}
-          required
-          margin="normal"
+          required 
         />
-        <TextField
-          fullWidth
-          label="City"
-          value={formData.city}
+      </div>
+      <div>
+        <label>City:</label>
+        <input 
+          type="text" 
+          value={formData.city} 
           onChange={(e) => setFormData({...formData, city: e.target.value})}
-          required
-          margin="normal"
+          required 
         />
-        <TextField
-          fullWidth
-          label="Price"
-          type="number"
-          value={formData.price}
+      </div>
+      <div>
+        <label>Price:</label>
+        <input 
+          type="number" 
+          value={formData.price} 
           onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
-          required
-          margin="normal"
+          required 
         />
-        <TextField
-          fullWidth
-          label="Bedrooms"
-          type="number"
-          value={formData.bedrooms}
+      </div>
+      <div>
+        <label>Bedrooms:</label>
+        <input 
+          type="number" 
+          value={formData.bedrooms} 
           onChange={(e) => setFormData({...formData, bedrooms: Number(e.target.value)})}
-          required
-          margin="normal"
+          required 
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ mt: 3 }}
-        >
-          {property ? 'Update' : 'Create'} Property
-        </Button>
-      </Box>
-    </Container>
+      </div>
+      <button type="submit">{property ? 'Update' : 'Create'} Property</button>
+    </form>
   );
 };

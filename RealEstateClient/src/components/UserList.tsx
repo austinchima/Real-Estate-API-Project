@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { User } from '../types';
+import  type { User } from '../types';
 import { userService } from '../services';
-import { Container, Typography, Card, CardContent, Grid, CircularProgress, Box, Chip } from '@mui/material';
 
 export const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -22,38 +21,19 @@ export const UserList = () => {
     fetchUsers();
   }, []);
 
-  if (loading) return <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>;
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <Container maxWidth="lg">
-      <Typography variant="h4" component="h2" gutterBottom>
-        Users
-      </Typography>
-      <Grid container spacing={3}>
-        {users.map(user => (
-          <Grid item xs={12} md={6} lg={4} key={user.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" component="h3">
-                  {user.firstName} {user.lastName}
-                </Typography>
-                <Typography color="textSecondary" gutterBottom>
-                  {user.email}
-                </Typography>
-                <Typography variant="body2">
-                  {user.phoneNumber}
-                </Typography>
-                <Box mt={1}>
-                  <Chip 
-                    label={user.isActive ? 'Active' : 'Inactive'} 
-                    color={user.isActive ? 'success' : 'default'}
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <div>
+      <h2>Users</h2>
+      {users.map(user => (
+        <div key={user.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+          <h3>{user.firstName} {user.lastName}</h3>
+          <p>Email: {user.email}</p>
+          <p>Phone: {user.phoneNumber}</p>
+          <p>Status: {user.isActive ? 'Active' : 'Inactive'}</p>
+        </div>
+      ))}
+    </div>
   );
 };
