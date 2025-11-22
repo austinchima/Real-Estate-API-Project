@@ -21,6 +21,15 @@ export const RealtorList = () => {
     fetchRealtors();
   }, []);
 
+  const handleDelete = async (id: number) => {
+    try {
+      await realtorService.deleteRealtor(id);
+      setRealtors(realtors.filter(r => r.id !== id));
+    } catch (error) {
+      console.error('Error deleting realtor:', error);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -33,6 +42,9 @@ export const RealtorList = () => {
           <p>License: {realtor.licenseNumber}</p>
           <p>Experience: {realtor.yearsOfExperience} years</p>
           <p>Status: {realtor.isActive ? 'Active' : 'Inactive'}</p>
+          <button onClick={() => handleDelete(realtor.id)} style={{ backgroundColor: 'red', color: 'white' }}>
+            Delete
+          </button>
         </div>
       ))}
     </div>

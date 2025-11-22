@@ -21,6 +21,15 @@ export const UserList = () => {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (id: number) => {
+    try {
+      await userService.deleteUser(id);
+      setUsers(users.filter(u => u.id !== id));
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -32,6 +41,9 @@ export const UserList = () => {
           <p>Email: {user.email}</p>
           <p>Phone: {user.phoneNumber}</p>
           <p>Status: {user.isActive ? 'Active' : 'Inactive'}</p>
+          <button onClick={() => handleDelete(user.id)} style={{ backgroundColor: 'red', color: 'white' }}>
+            Delete
+          </button>
         </div>
       ))}
     </div>

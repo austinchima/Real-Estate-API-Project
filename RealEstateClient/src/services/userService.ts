@@ -1,5 +1,5 @@
 import { userApi } from '../api';
-import { User } from '../types';
+import  type { User } from '../types';
 
 // Service layer for user business logic
 export const userService = {

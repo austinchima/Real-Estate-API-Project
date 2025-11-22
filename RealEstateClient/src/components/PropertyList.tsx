@@ -21,6 +21,15 @@ export const PropertyList = () => {
     fetchProperties();
   }, []);
 
+  const handleDelete = async (id: number) => {
+    try {
+      await propertyService.deleteProperty(id);
+      setProperties(properties.filter(p => p.id !== id));
+    } catch (error) {
+      console.error('Error deleting property:', error);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -32,6 +41,9 @@ export const PropertyList = () => {
           <p>{property.city}, {property.state} {property.zipCode}</p>
           <p>Price: ${property.price.toLocaleString()}</p>
           <p>{property.bedrooms} bed, {property.bathrooms} bath</p>
+          <button onClick={() => handleDelete(property.id)} style={{ backgroundColor: 'red', color: 'white' }}>
+            Delete
+          </button>
         </div>
       ))}
     </div>
