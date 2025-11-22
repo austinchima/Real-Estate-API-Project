@@ -8,6 +8,9 @@ using RealEstateAPI.GlobalErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables from .env file
+DotNetEnv.Env.Load();
+
 // Add services to the container
 builder.Services.AddControllers()
     .AddNewtonsoftJson(); // Required for JsonPatch support
