@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RealEstateAPI.Models;
-using RealEstateAPI.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
+using RealEstateAPI.Services;
+using RealEstateAPI.DTOs;
 
 namespace RealEstateAPI.Controllers
 {
@@ -11,76 +13,90 @@ namespace RealEstateAPI.Controllers
     [Route("api/[controller]")]
     public class RealtorsController : ControllerBase
     {
-        private readonly IRealtorRepository _realtorRepository;
+        private readonly IRealtorService _realtorService;
+        private readonly IMapper _mapper;
 
         /// <summary>Constructor with dependency injection</summary>
-        public RealtorsController(IRealtorRepository realtorRepository)
+        public RealtorsController(IRealtorService realtorService, IMapper mapper)
         {
-            _realtorRepository = realtorRepository;
+            _realtorService = realtorService;
+            _mapper = mapper;
         }
 
         /// <summary>Gets all realtors</summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Realtor>>> GetAllRealtorsAsync()
+        public async Task<ActionResult<IEnumerable<RealtorReadDto>>> GetAllRealtorsAsync()
         {
-            var realtors = await _realtorRepository.GetAllAsync();
-            return Ok(realtors);
+            var realtors = await _realtorService.GetAllRealtorsAsync();
+            var realtorDtos = _mapper.Map<IEnumerable<RealtorReadDto>>(realtors);
+            return Ok(realtorDtos);
         }
 
         /// <summary>Gets realtor by ID</summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Realtor>> GetRealtorByIdAsync(int id)
+        public async Task<ActionResult<RealtorReadDto>> GetRealtorByIdAsync(int id)
         {
-            var realtor = await _realtorRepository.GetByIdAsync(id);
+            var realtor = await _realtorService.GetRealtorByIdAsync(id);
             if (realtor == null)
                 return NotFound();
-            return Ok(realtor);
+            
+            var realtorDto = _mapper.Map<RealtorReadDto>(realtor);
+            return Ok(realtorDto);
         }
 
         /// <summary>Creates new realtor</summary>
         [HttpPost]
-        public async Task<ActionResult<Realtor>> CreateRealtorAsync(Realtor realtor)
+        public async Task<ActionResult<RealtorReadDto>> CreateRealtorAsync(RealtorCreateDto realtorCreateDto)
         {
-            var created = await _realtorRepository.CreateAsync(realtor);
-            return CreatedAtAction(nameof(GetRealtorByIdAsync), new { id = created.Id }, created);
+            var realtor = _mapper.Map<RealEstateAPI.Models.Realtor>(realtorCreateDto);
+            var created = await _realtorService.CreateRealtorAsync(realtor);
+            var createdDto = _mapper.Map<RealtorReadDto>(created);
+            return CreatedAtAction(nameof(GetRealtorByIdAsync), new { id = created.Id }, createdDto);
         }
 
         /// <summary>Updates entire realtor</summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<Realtor>> UpdateRealtorAsync(int id, Realtor realtor)
+        public async Task<ActionResult<RealtorReadDto>> UpdateRealtorAsync(int id, RealtorUpdateDto realtorUpdateDto)
         {
-            var exists = await _realtorRepository.ExistsAsync(id);
-            if (!exists)
+            try
+            {
+                var realtor = _mapper.Map<RealEstateAPI.Models.Realtor>(realtorUpdateDto);
+                var updated = await _realtorService.UpdateRealtorAsync(id, realtor);
+                var updatedDto = _mapper.Map<RealtorReadDto>(updated);
+                return Ok(updatedDto);
+            }
+            catch (KeyNotFoundException)
+            {
                 return NotFound();
-            
-            realtor.Id = id;
-            var updated = await _realtorRepository.UpdateAsync(realtor);
-            return Ok(updated);
+            }
         }
 
         /// <summary>Partially updates realtor</summary>
         [HttpPatch("{id}")]
-        public async Task<ActionResult<Realtor>> PatchRealtorAsync(int id, Realtor realtor)
+        public async Task<ActionResult<RealtorReadDto>> PatchRealtorAsync(int id, JsonPatchDocument<RealtorUpdateDto> patchDoc)
         {
-            var exists = await _realtorRepository.ExistsAsync(id);
-            if (!exists)
+            var realtor = await _realtorService.GetRealtorByIdAsync(id);
+            if (realtor == null)
                 return NotFound();
-            
-            realtor.Id = id;
-            var updated = await _realtorRepository.UpdateAsync(realtor);
-            return Ok(updated);
+
+            var realtorToPatch = _mapper.Map<RealtorUpdateDto>(realtor);
+            patchDoc.ApplyTo(realtorToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _mapper.Map(realtorToPatch, realtor);
+            var updated = await _realtorService.UpdateRealtorAsync(id, realtor);
+            var updatedDto = _mapper.Map<RealtorReadDto>(updated);
+            return Ok(updatedDto);
         }
 
         /// <summary>Deletes realtor</summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRealtorAsync(int id)
         {
-            var realtor = await _realtorRepository.GetByIdAsync(id);
-            if (realtor == null)
-                return NotFound();
-            realtor.IsDeleted = true;
-            var updated = await _realtorRepository.UpdateAsync(realtor);
-            if (!updated)
+            var deleted = await _realtorService.DeleteRealtorAsync(id);
+            if (!deleted)
                 return NotFound();
             return NoContent();
         }

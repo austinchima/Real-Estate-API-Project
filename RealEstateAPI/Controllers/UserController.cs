@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RealEstateAPI.Models;
-using RealEstateAPI.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
+using RealEstateAPI.Services;
+using RealEstateAPI.DTOs;
 
 namespace RealEstateAPI.Controllers
 {
@@ -11,76 +13,90 @@ namespace RealEstateAPI.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
         /// <summary>Constructor with dependency injection</summary>
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserService userService, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         /// <summary>Gets all users</summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersAsync()
+        public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAllUsersAsync()
         {
-            var users = await _userRepository.GetAllAsync();
-            return Ok(users);
+            var users = await _userService.GetAllUsersAsync();
+            var userDtos = _mapper.Map<IEnumerable<UserReadDto>>(users);
+            return Ok(userDtos);
         }
 
         /// <summary>Gets user by ID</summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserByIdAsync(int id)
+        public async Task<ActionResult<UserReadDto>> GetUserByIdAsync(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
                 return NotFound();
-            return Ok(user);
+            
+            var userDto = _mapper.Map<UserReadDto>(user);
+            return Ok(userDto);
         }
 
         /// <summary>Creates new user</summary>
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUserAsync(User user)
+        public async Task<ActionResult<UserReadDto>> CreateUserAsync(UserCreateDto userCreateDto)
         {
-            var created = await _userRepository.CreateAsync(user);
-            return CreatedAtAction(nameof(GetUserByIdAsync), new { id = created.Id }, created);
+            var user = _mapper.Map<RealEstateAPI.Models.User>(userCreateDto);
+            var created = await _userService.CreateUserAsync(user);
+            var createdDto = _mapper.Map<UserReadDto>(created);
+            return CreatedAtAction(nameof(GetUserByIdAsync), new { id = created.Id }, createdDto);
         }
 
         /// <summary>Updates entire user</summary>
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUserAsync(int id, User user)
+        public async Task<ActionResult<UserReadDto>> UpdateUserAsync(int id, UserUpdateDto userUpdateDto)
         {
-            var exists = await _userRepository.ExistsAsync(id);
-            if (!exists)
+            try
+            {
+                var user = _mapper.Map<RealEstateAPI.Models.User>(userUpdateDto);
+                var updated = await _userService.UpdateUserAsync(id, user);
+                var updatedDto = _mapper.Map<UserReadDto>(updated);
+                return Ok(updatedDto);
+            }
+            catch (KeyNotFoundException)
+            {
                 return NotFound();
-            
-            user.Id = id;
-            var updated = await _userRepository.UpdateAsync(user);
-            return Ok(updated);
+            }
         }
 
         /// <summary>Partially updates user</summary>
         [HttpPatch("{id}")]
-        public async Task<ActionResult<User>> PatchUserAsync(int id, User user)
+        public async Task<ActionResult<UserReadDto>> PatchUserAsync(int id, JsonPatchDocument<UserUpdateDto> patchDoc)
         {
-            var exists = await _userRepository.ExistsAsync(id);
-            if (!exists)
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
                 return NotFound();
-            
-            user.Id = id;
-            var updated = await _userRepository.UpdateAsync(user);
-            return Ok(updated);
+
+            var userToPatch = _mapper.Map<UserUpdateDto>(user);
+            patchDoc.ApplyTo(userToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _mapper.Map(userToPatch, user);
+            var updated = await _userService.UpdateUserAsync(id, user);
+            var updatedDto = _mapper.Map<UserReadDto>(updated);
+            return Ok(updatedDto);
         }
 
         /// <summary>Deletes user</summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUserAsync(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
-                return NotFound();
-            user.IsDeleted = true;
-            var updated = await _userRepository.UpdateAsync(user);
-            if (!updated)
+            var deleted = await _userService.DeleteUserAsync(id);
+            if (!deleted)
                 return NotFound();
             return NoContent();
         }

@@ -11,11 +11,10 @@ namespace RealEstateAPI.Services
     {
         Task<IEnumerable<Realtor>> GetAllRealtorsAsync();
         Task<Realtor?> GetRealtorByIdAsync(int id);
-        Task AddRealtorAsync(Realtor realtor);
-        Task UpdateRealtorAsync(Realtor realtor);
-        Task DeleteRealtorAsync(int id);
+        Task<Realtor> CreateRealtorAsync(Realtor realtor);
+        Task<Realtor> UpdateRealtorAsync(int id, Realtor realtor);
+        Task<bool> DeleteRealtorAsync(int id);
         Task<IEnumerable<Property>> GetPropertiesByRealtorAsync(int realtorId);
-        Task AddPropertyToRealtorAsync(int realtorId, Property property);
     }
 
     /// <summary>
@@ -42,19 +41,24 @@ namespace RealEstateAPI.Services
             return await _realtorRepository.GetByIdAsync(id);
         }
 
-        public async Task AddRealtorAsync(Realtor realtor)
+        public async Task<Realtor> CreateRealtorAsync(Realtor realtor)
         {
-            await _realtorRepository.CreateAsync(realtor);
+            return await _realtorRepository.CreateAsync(realtor);
         }
 
-        public async Task UpdateRealtorAsync(Realtor realtor)
+        public async Task<Realtor> UpdateRealtorAsync(int id, Realtor realtor)
         {
-            await _realtorRepository.UpdateAsync(realtor);
+            var exists = await _realtorRepository.ExistsAsync(id);
+            if (!exists)
+                throw new KeyNotFoundException("Realtor not found");
+            
+            realtor.Id = id;
+            return await _realtorRepository.UpdateAsync(realtor);
         }
 
-        public async Task DeleteRealtorAsync(int id)
+        public async Task<bool> DeleteRealtorAsync(int id)
         {
-            await _realtorRepository.DeleteAsync(id);
+            return await _realtorRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<Property>> GetPropertiesByRealtorAsync(int realtorId)
@@ -62,11 +66,7 @@ namespace RealEstateAPI.Services
             return await _propertyRepository.GetByRealtorIdAsync(realtorId);
         }
 
-        public async Task AddPropertyToRealtorAsync(int realtorId, Property property)
-        {
-            property.RealtorId = realtorId;
-            await _propertyRepository.CreateAsync(property);
-        }
+
         
     }
 }
