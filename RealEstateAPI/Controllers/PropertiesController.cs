@@ -78,10 +78,10 @@ namespace RealEstateAPI.Controllers
             var property = await _propertyRepository.GetByIdAsync(id);
             if (property == null)
                 return NotFound();
+            if(property.IsDeleted)
+                return NoContent();
             property.IsDeleted = true;
-            var updated = await _propertyRepository.UpdateAsync(property);
-            if (!updated)
-                return NotFound();
+            await _propertyRepository.UpdateAsync(property);
             return NoContent();
         }
     }
