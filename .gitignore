@@ -105,3 +105,5 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+appsettings.Production.json
