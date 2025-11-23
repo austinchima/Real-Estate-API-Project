@@ -1,19 +1,29 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 80
-
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["RealEstateAPI.csproj", "."]
-RUN dotnet restore "./RealEstateAPI.csproj"
+
+# Copy csproj and restore dependencies (better layer caching)
+COPY ["RealEstateAPI.csproj", "./"]
+RUN dotnet restore "RealEstateAPI.csproj"
+
+# Copy everything else and build
 COPY . .
-WORKDIR "/src/."
 RUN dotnet build "RealEstateAPI.csproj" -c Release -o /app/build
 
+# Publish stage
 FROM build AS publish
 RUN dotnet publish "RealEstateAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM base AS final
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+# Copy published output from publish stage
 COPY --from=publish /app/publish .
+
+# Set environment to Production
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 ENTRYPOINT ["dotnet", "RealEstateAPI.dll"]
