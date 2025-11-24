@@ -28,12 +28,17 @@ import {
 } from '@mui/icons-material';
 import { realtorService } from '../services';
 import type { Realtor } from '../types/index';
+import { RealtorForm } from './RealtorForm';
 
 export const RealtorList: React.FC = () => {
   const [realtors, setRealtors] = useState<Realtor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; realtor: Realtor | null }>({
+    open: false,
+    realtor: null,
+  });
+  const [formDialog, setFormDialog] = useState<{ open: boolean; realtor: Realtor | null }>({
     open: false,
     realtor: null,
   });
@@ -73,6 +78,15 @@ export const RealtorList: React.FC = () => {
     }
   };
 
+  const handleFormSave = (savedRealtor: Realtor) => {
+    if (formDialog.realtor) {
+      setRealtors(realtors.map(r => r.id === savedRealtor.id ? savedRealtor : r));
+    } else {
+      setRealtors([...realtors, savedRealtor]);
+    }
+    setFormDialog({ open: false, realtor: null });
+  };
+
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
@@ -98,7 +112,7 @@ export const RealtorList: React.FC = () => {
         <Typography variant="h4" component="h1">
           Realtors
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log('Add realtor')}>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setFormDialog({ open: true, realtor: null })}>
           Add Realtor
         </Button>
       </Box>
@@ -172,7 +186,7 @@ export const RealtorList: React.FC = () => {
               </CardContent>
 
               <CardActions>
-                <Button size="small" startIcon={<EditIcon />}>
+                <Button size="small" startIcon={<EditIcon />} onClick={() => setFormDialog({ open: true, realtor })}>
                   Edit
                 </Button>
                 <Button size="small" color="error" startIcon={<DeleteIcon />} onClick={() => handleDeleteClick(realtor)}>
@@ -214,6 +228,14 @@ export const RealtorList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Realtor Form Dialog */}
+      <RealtorForm
+        open={formDialog.open}
+        onClose={() => setFormDialog({ open: false, realtor: null })}
+        onSave={handleFormSave}
+        realtor={formDialog.realtor}
+      />
     </Box>
   );
 };

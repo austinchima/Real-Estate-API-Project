@@ -25,12 +25,17 @@ import {
 } from '@mui/icons-material';
 import { propertyService } from '../services';
 import type { Property } from '../types/index';
+import { PropertyForm } from './PropertyForm';
 
 export const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; property: Property | null }>({
+    open: false,
+    property: null,
+  });
+  const [formDialog, setFormDialog] = useState<{ open: boolean; property: Property | null }>({
     open: false,
     property: null,
   });
@@ -70,6 +75,15 @@ export const PropertyList: React.FC = () => {
     }
   };
 
+  const handleFormSave = (savedProperty: Property) => {
+    if (formDialog.property) {
+      setProperties(properties.map(p => p.id === savedProperty.id ? savedProperty : p));
+    } else {
+      setProperties([...properties, savedProperty]);
+    }
+    setFormDialog({ open: false, property: null });
+  };
+
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'available':
@@ -97,7 +111,7 @@ export const PropertyList: React.FC = () => {
         <Typography variant="h4" component="h1">
           Properties
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log('Add property')}>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setFormDialog({ open: true, property: null })}>
           Add Property
         </Button>
       </Box>
@@ -152,7 +166,7 @@ export const PropertyList: React.FC = () => {
               </CardContent>
 
               <CardActions>
-                <Button size="small" startIcon={<EditIcon />}>
+                <Button size="small" startIcon={<EditIcon />} onClick={() => setFormDialog({ open: true, property })}>
                   Edit
                 </Button>
                 <Button size="small" color="error" startIcon={<DeleteIcon />} onClick={() => handleDeleteClick(property)}>
@@ -193,6 +207,14 @@ export const PropertyList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Property Form Dialog */}
+      <PropertyForm
+        open={formDialog.open}
+        onClose={() => setFormDialog({ open: false, property: null })}
+        onSave={handleFormSave}
+        property={formDialog.property}
+      />
     </Box>
   );
 };
