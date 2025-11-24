@@ -146,7 +146,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [x] 15.4 Implement realtor delete functionality
 - [x] Task 16: Implement React routing and navigation
 - [ ] Task 17: Build and deploy React application to AWS S3
-  - [ ] 17.1 Build React application for production
+  - [x] 17.1 Build React application for production
   - [ ] 17.2 Configure AWS S3 bucket for static hosting
   - [ ] 17.3 Deploy React build to S3
 
