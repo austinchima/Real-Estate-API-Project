@@ -32,6 +32,17 @@ builder.Services.AddScoped<IRealtorService, RealtorService>();
 // Configure AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -72,6 +83,7 @@ if (app.Environment.IsDevelopment())
 
 // Security and routing middleware
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 
 // Map controller endpoints

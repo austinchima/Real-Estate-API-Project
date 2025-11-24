@@ -1,4 +1,3 @@
-// Real estate property data model
 export interface Property {
   id: number;
   address: string;
@@ -16,7 +15,6 @@ export interface Property {
   description: string;
 }
 
-// User/client data model
 export interface User {
   id: number;
   firstName: string;
@@ -28,7 +26,6 @@ export interface User {
   isActive: boolean;
 }
 
-// Real estate agent data model
 export interface Realtor {
   id: number;
   firstName: string;

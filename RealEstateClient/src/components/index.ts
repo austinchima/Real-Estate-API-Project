@@ -1,9 +1,4 @@
-export * from './PropertyList';
-export * from './PropertyDetail';
-export * from './PropertyForm';
-export * from './UserList';
-export * from './UserDetail';
-export * from './UserForm';
-export * from './RealtorList';
-export * from './RealtorDetail';
-export * from './RealtorForm';
+export { PropertyList } from './PropertyList';
+export { UserList } from './UserList';
+export { RealtorList } from './RealtorList';
+export { default as Dashboard } from './Dashboard';
