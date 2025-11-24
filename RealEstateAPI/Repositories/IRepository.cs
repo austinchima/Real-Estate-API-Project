@@ -4,6 +4,7 @@ namespace RealEstateAPI.Repositories;
 /// Generic repository interface for common CRUD operations
 /// </summary>
 /// <typeparam name="T">Entity type</typeparam>
+
 public interface IRepository<T> where T : class
 {
     /// <summary>

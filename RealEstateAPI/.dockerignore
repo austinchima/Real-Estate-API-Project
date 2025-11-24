@@ -3,6 +3,11 @@ obj/
 .git/
 .vs/
 .vscode/
-*.md
+*.user
+*.suo
+*.cache
 Dockerfile*
 .dockerignore
+README.md
+.env
+.gitignore

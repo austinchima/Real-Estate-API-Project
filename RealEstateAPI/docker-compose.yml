@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # SQL Server database service
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: real-estate-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - real-estate-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Password123 -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # Real Estate API service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: real-estate-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=RealEstateDB;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "8080:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - real-estate-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+  real-estate-network:
+    driver: bridge
