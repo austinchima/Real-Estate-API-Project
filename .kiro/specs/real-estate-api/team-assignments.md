@@ -76,7 +76,7 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 - [x] Task 10: Deploy API to AWS ECS using Fargate
   - [x] 10.1 Push Docker image to AWS ECR
   - [x] 10.2 Create and configure ECS task definition
-  - [ ] 10.3 Run ECS task on Fargate
+  - [x] 10.3 Run ECS task on Fargate
 
 **Marking Scheme Coverage (~20 marks):**
 

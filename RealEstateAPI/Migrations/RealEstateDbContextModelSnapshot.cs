@@ -17,7 +17,7 @@ namespace RealEstateAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -50,6 +50,9 @@ namespace RealEstateAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ListedDate")
                         .HasColumnType("datetime2");
@@ -98,6 +101,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 4,
                             City = "Los Angeles",
                             Description = "Beautiful modern home with stunning views",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 850000m,
                             PropertyType = "House",
@@ -115,6 +119,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 3,
                             City = "New York",
                             Description = "Luxury condo in prime location",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 1200000m,
                             PropertyType = "Condo",
@@ -132,6 +137,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 2,
                             City = "Chicago",
                             Description = "Lakefront apartment with amazing amenities",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 675000m,
                             PropertyType = "Apartment",
@@ -149,6 +155,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 5,
                             City = "Miami",
                             Description = "Beachfront property with private access",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 950000m,
                             PropertyType = "House",
@@ -166,6 +173,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 4,
                             City = "Denver",
                             Description = "Mountain retreat with panoramic views",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 725000m,
                             PropertyType = "House",
@@ -183,6 +191,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 2,
                             City = "Seattle",
                             Description = "Modern downtown condo near tech hub",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 580000m,
                             PropertyType = "Condo",
@@ -200,6 +209,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 3,
                             City = "Austin",
                             Description = "Family-friendly home in great school district",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 495000m,
                             PropertyType = "House",
@@ -217,6 +227,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 3,
                             City = "Boston",
                             Description = "Charming historic townhouse fully renovated",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 890000m,
                             PropertyType = "Townhouse",
@@ -234,6 +245,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 3,
                             City = "Phoenix",
                             Description = "Desert oasis with pool and landscaping",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 425000m,
                             PropertyType = "House",
@@ -251,6 +263,7 @@ namespace RealEstateAPI.Migrations
                             Bedrooms = 4,
                             City = "Nashville",
                             Description = "Contemporary home near entertainment district",
+                            IsDeleted = false,
                             ListedDate = new DateTime(2024, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Price = 615000m,
                             PropertyType = "House",
