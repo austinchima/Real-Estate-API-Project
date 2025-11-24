@@ -25,5 +25,7 @@ COPY --from=publish /app/publish .
 
 # Set environment to Production
 ENV ASPNETCORE_ENVIRONMENT=Production
+# Force ASP.NET Core to listen on port 80
+ENV ASPNETCORE_HTTP_PORTS=80
 
 ENTRYPOINT ["dotnet", "RealEstateAPI.dll"]
