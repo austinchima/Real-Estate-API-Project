@@ -1,5 +1,5 @@
 import { realtorApi } from '../api';
-import { Realtor } from '../types';
+import type { Realtor } from '../types';
 
 // Service layer for realtor business logic
 export const realtorService = {

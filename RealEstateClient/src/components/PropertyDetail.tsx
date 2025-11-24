@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import  type { Property } from '../types';
+import type { Property } from '../types';
 import { propertyService } from '../services';
 
 interface PropertyDetailProps {

@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { PropertyList, UserList, RealtorList, PropertyForm, UserForm, RealtorForm } from './components';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <Router>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <nav style={{ padding: '20px', borderBottom: '1px solid #ccc' }}>
+          <Link to="/" style={{ marginRight: '20px' }}>Properties</Link>
+          <Link to="/users" style={{ marginRight: '20px' }}>Users</Link>
+          <Link to="/realtors" style={{ marginRight: '20px' }}>Realtors</Link>
+          <Link to="/properties/new" style={{ marginRight: '20px' }}>Add Property</Link>
+          <Link to="/users/new" style={{ marginRight: '20px' }}>Add User</Link>
+          <Link to="/realtors/new">Add Realtor</Link>
+        </nav>
+        
+        <Routes>
+          <Route path="/" element={<PropertyList />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/realtors" element={<RealtorList />} />
+          <Route path="/properties/new" element={<PropertyForm />} />
+          <Route path="/users/new" element={<UserForm />} />
+          <Route path="/realtors/new" element={<RealtorForm />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;
