@@ -145,10 +145,10 @@ This document assigns tasks from the implementation plan to each of the 3 team m
   - [x] 15.3 Create RealtorForm component for create/edit
   - [x] 15.4 Implement realtor delete functionality
 - [x] Task 16: Implement React routing and navigation
-- [ ] Task 17: Build and deploy React application to AWS S3
+- [x] Task 17: Build and deploy React application to AWS S3
   - [x] 17.1 Build React application for production
-  - [ ] 17.2 Configure AWS S3 bucket for static hosting
-  - [ ] 17.3 Deploy React build to S3
+  - [x] 17.2 Configure AWS S3 bucket for static hosting
+  - [x] 17.3 Deploy React build to S3
 
 **Marking Scheme Coverage (~25 marks):**
 
@@ -164,11 +164,11 @@ This document assigns tasks from the implementation plan to each of the 3 team m
 
 **Deliverables:**
 
-- APigee proxy configured with API key verification
+- APigee proxy configured with API key verification ✅
 - API Product with 2 registered developers
-- Developer portal for API key management
-- Complete React application with all CRUD operations
-- React app deployed on AWS S3
+- Developer portal for API key management ✅
+- Complete React application with all CRUD operations✅
+- React app deployed on AWS S3✅
 - Architecture diagram for presentation
 
 **Integration Points:**
