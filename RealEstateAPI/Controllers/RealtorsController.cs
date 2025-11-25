@@ -10,7 +10,7 @@ namespace RealEstateAPI.Controllers
     /// API Controller for Realtor CRUD operations
     /// </summary>
     [ApiController]
-    [Route("reAPI/[controller]")]
+    [Route("api/[controller]")]
     public class RealtorsController : ControllerBase
     {
         private readonly IRealtorService _realtorService;

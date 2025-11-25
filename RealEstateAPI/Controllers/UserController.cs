@@ -10,7 +10,7 @@ namespace RealEstateAPI.Controllers
     /// API Controller for User CRUD operations
     /// </summary>
     [ApiController]
-    [Route("reAPI/[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;

@@ -15,6 +15,17 @@ DotNetEnv.Env.Load();
 builder.Services.AddControllers()
     .AddNewtonsoftJson(); // Required for JsonPatch support
 
+// Configure CORS to allow frontend access
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin() // Allow all origins for development
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Configure Entity Framework Core with SQL Server
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,8 +81,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Enable CORS - must be before UseAuthorization
+app.UseCors("AllowFrontend");
+
 // Security and routing middleware
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 // Map controller endpoints
