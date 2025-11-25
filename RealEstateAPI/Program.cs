@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin() // Allow all origins for development
+        policy.WithOrigins("http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com" || "http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
