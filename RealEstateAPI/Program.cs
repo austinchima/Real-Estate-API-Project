@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5175", "http://localhost:3000", "http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
