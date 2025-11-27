@@ -11,7 +11,7 @@ export interface Property {
   squareFeet: number;
   propertyType: string;
   status: string;
-  realtorId: number | null;
+  realtorId: number;
   listedDate: string;
   description: string;
 }
