@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Realtor } from '../types';
+import type { Realtor } from '../types';
 import { realtorService } from '../services';
 
 interface RealtorDetailProps {
@@ -26,12 +26,8 @@ export const RealtorDetail = ({ realtorId }: RealtorDetailProps) => {
   }, [realtorId]);
 
   const getRealtorImage = (id: number) => {
-    try {
-      const imageNumber = ((id - 1) % 5) + 1;
-      return new URL(`../images/Realtor ${imageNumber}.png`, import.meta.url).href;
-    } catch {
-      return new URL('../images/Realtor 1.png', import.meta.url).href;
-    }
+    const imageNumber = ((id - 1) % 5) + 1;
+    return `https://realestate-client-bucket.s3.us-east-1.amazonaws.com/Realtor+${imageNumber}.png`;
   };
 
   if (loading) return (

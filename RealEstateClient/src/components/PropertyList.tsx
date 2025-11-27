@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import type{ Property } from '../types';
+import type { Property } from '../types';
 import { propertyService } from '../services';
+
+// S3 image URLs
 
 export const PropertyList = () => {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -31,13 +33,8 @@ export const PropertyList = () => {
   };
 
   const getPropertyImage = (id: number) => {
-    try {
-      // Use import.meta.url for Vite compatibility
-      const imageNumber = ((id - 1) % 5) + 1;
-      return new URL(`../images/Property ${imageNumber}.png`, import.meta.url).href;
-    } catch {
-      return new URL('../images/Property 1.png', import.meta.url).href;
-    }
+    const imageNumber = ((id - 1) % 5) + 1;
+    return `https://realestate-client-bucket.s3.us-east-1.amazonaws.com/Property+${imageNumber}.png`;
   };
 
   if (loading) return (

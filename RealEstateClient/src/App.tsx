@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { PropertyList, UserList, RealtorList, PropertyForm, UserForm, RealtorForm, PropertyDetail, RealtorDetail } from './components';
+import { Home, PropertyList, UserList, RealtorList, PropertyForm, UserForm, RealtorForm, PropertyDetail, RealtorDetail } from './components';
 
 function App() {
   return (
@@ -45,7 +45,18 @@ function App() {
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
               >
-                🏠 Properties
+                🏠 Home
+              </Link>
+              <Link to="/properties" style={{
+                color: 'white',
+                textDecoration: 'none',
+                padding: '15px 20px',
+                transition: 'background 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+              >
+                🏢 Properties
               </Link>
               <Link to="/realtors" style={{
                 color: 'white',
@@ -160,7 +171,8 @@ function App() {
         {/* Main Content Area */}
         <main style={{ minHeight: 'calc(100vh - 70px)' }}>
           <Routes>
-            <Route path="/" element={<PropertyList />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/properties" element={<PropertyList />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/realtors" element={<RealtorList />} />
             <Route path="/properties/new" element={<PropertyForm />} />

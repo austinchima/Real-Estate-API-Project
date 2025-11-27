@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import type  { Realtor } from '../types';
+import type { Realtor } from '../types';
 import { realtorService } from '../services';
+
+// S3 image URLs
 
 export const RealtorList = () => {
   const [realtors, setRealtors] = useState<Realtor[]>([]);
@@ -31,13 +33,8 @@ export const RealtorList = () => {
   };
 
   const getRealtorImage = (id: number) => {
-    try {
-      // Use import.meta.url for Vite compatibility
-      const imageNumber = ((id - 1) % 5) + 1;
-      return new URL(`../images/Realtor ${imageNumber}.png`, import.meta.url).href;
-    } catch {
-      return new URL('../images/Realtor 1.png', import.meta.url).href;
-    }
+    const imageNumber = ((id - 1) % 5) + 1;
+    return `https://realestate-client-bucket.s3.us-east-1.amazonaws.com/Realtor+${imageNumber}.png`;
   };
 
   if (loading) return (
@@ -54,7 +51,7 @@ export const RealtorList = () => {
         marginBottom: '30px',
         color: '#333'
       }}>
-        👨‍💼 Professional Realtors
+        👨💼 Professional Realtors
       </h2>
       
       <div style={{

@@ -26,12 +26,8 @@ export const PropertyDetail = ({ propertyId }: PropertyDetailProps) => {
   }, [propertyId]);
 
   const getPropertyImage = (id: number) => {
-    try {
-      const imageNumber = ((id - 1) % 5) + 1;
-      return new URL(`../images/Property ${imageNumber}.png`, import.meta.url).href;
-    } catch {
-      return new URL('../images/Property 1.png', import.meta.url).href;
-    }
+    const imageNumber = ((id - 1) % 5) + 1;
+    return `https://realestate-client-bucket.s3.us-east-1.amazonaws.com/Property+${imageNumber}.png`;
   };
 
   if (loading) return (

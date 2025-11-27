@@ -32,6 +32,17 @@ builder.Services.AddScoped<IRealtorService, RealtorService>();
 // Configure AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configure CORS for frontend communication
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -72,6 +83,7 @@ if (app.Environment.IsDevelopment())
 
 // Security and routing middleware
 app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 app.UseAuthorization();
 
 // Map controller endpoints
