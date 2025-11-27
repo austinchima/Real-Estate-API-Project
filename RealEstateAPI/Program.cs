@@ -43,6 +43,17 @@ builder.Services.AddScoped<IRealtorService, RealtorService>();
 // Configure AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configure CORS for frontend communication
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5175", "http://localhost:3000", "http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -80,11 +91,23 @@ app.UseSwaggerUI(options =>
 
 // Enable CORS - must be before UseAuthorization
 app.UseCors("AllowFrontend");
+// Enable Swagger documentation in development environment
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Real Estate API v1");
+        options.RoutePrefix = "swagger";
+    });
+}
 
 // Security and routing middleware
 // Comment out HTTPS redirection for ECS (ALB handles SSL)
 // app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 app.UseAuthorization();
 
 // Map controller endpoints

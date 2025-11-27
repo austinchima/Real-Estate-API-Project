@@ -46,6 +46,47 @@ build/
 .env.test.local
 .env.production.local
 
+# Database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Local database
+App_Data/
+
+# Package lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Images and media files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.ico
+*.webp
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mp3
+*.wav
+*.ogg
+
+# Image directories
+images/
+img/
+assets/images/
+public/images/
+src/assets/
+
 # IDE
 .vscode/
 .idea/
