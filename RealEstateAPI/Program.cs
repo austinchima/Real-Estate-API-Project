@@ -15,17 +15,6 @@ DotNetEnv.Env.Load();
 builder.Services.AddControllers()
     .AddNewtonsoftJson(); // Required for JsonPatch support
 
-// Configure CORS to allow frontend access
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com" || "http://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
 // Configure Entity Framework Core with SQL Server
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -42,6 +31,17 @@ builder.Services.AddScoped<IRealtorService, RealtorService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Configure CORS for frontend communication
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -81,12 +81,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Enable CORS - must be before UseAuthorization
-app.UseCors("AllowFrontend");
-
 // Security and routing middleware
 app.UseHttpsRedirection();
-
+app.UseCors("AllowReactApp");
 app.UseAuthorization();
 
 // Map controller endpoints
