@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://realestate-client-bucket.s3-website-us-east-1.amazonaws.com" || "http://localhost:5173")
+        policy.AllowAnyOrigin()  // Allow all origins for APigee
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -70,22 +70,20 @@ var app = builder.Build();
 // Global error handling - catches all exceptions and returns consistent JSON responses
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-// Enable Swagger documentation in development environment
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for testing
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Real Estate API v1");
-        options.RoutePrefix = "swagger";
-    });
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Real Estate API v1");
+    options.RoutePrefix = "swagger";
+});
 
 // Enable CORS - must be before UseAuthorization
 app.UseCors("AllowFrontend");
 
 // Security and routing middleware
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection for ECS (ALB handles SSL)
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

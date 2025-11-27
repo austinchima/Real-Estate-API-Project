@@ -1,0 +1,38 @@
+{
+  "family": "real-estate-api-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<YOUR-ACCOUNT-ID>:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "real-estate-api",
+      "image": "<YOUR-ACCOUNT-ID>.dkr.ecr.us-east-1.amazonaws.com/real-estate-api:latest",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "ASPNETCORE_ENVIRONMENT",
+          "value": "Production"
+        },
+        {
+          "name": "ConnectionStrings__DefaultConnection",
+          "value": "Server=real-estate-db.c8jqo84sqtq1.us-east-1.rds.amazonaws.com;Database=RealEstateDB;User Id=admin;Password=real-estate-db;TrustServerCertificate=True;MultipleActiveResultSets=true"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/real-estate-api",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
