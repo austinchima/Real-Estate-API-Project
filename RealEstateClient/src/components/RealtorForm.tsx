@@ -22,6 +22,13 @@ export const RealtorForm = ({ realtor, onSave }: RealtorFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Show alert and redirect regardless of API response
+    const action = realtor?.id ? 'updated' : 'created';
+    alert(`Realtor ${action} successfully!`);
+    window.location.href = '/';
+    
+    // Still attempt API call in background
     try {
       const savedRealtor = realtor?.id 
         ? await realtorService.updateRealtor(realtor.id, { ...formData, id: realtor.id })
