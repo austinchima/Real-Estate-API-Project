@@ -51,7 +51,7 @@ namespace RealEstateAPI.Controllers
             var user = _mapper.Map<RealEstateAPI.Models.User>(userCreateDto);
             var created = await _userService.CreateUserAsync(user);
             var createdDto = _mapper.Map<UserReadDto>(created);
-            return CreatedAtAction(nameof(GetUserByIdAsync), new { id = created.Id }, createdDto);
+            return Ok(createdDto);
         }
 
         /// <summary>Updates entire user</summary>

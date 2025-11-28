@@ -1,0 +1,12 @@
+[
+  {
+    "op": "replace",
+    "path": "/price",
+    "value": 550000
+  },
+  {
+    "op": "replace", 
+    "path": "/status",
+    "value": "Pending"
+  }
+]

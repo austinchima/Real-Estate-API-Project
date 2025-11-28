@@ -51,7 +51,7 @@ namespace RealEstateAPI.Controllers
             var realtor = _mapper.Map<RealEstateAPI.Models.Realtor>(realtorCreateDto);
             var created = await _realtorService.CreateRealtorAsync(realtor);
             var createdDto = _mapper.Map<RealtorReadDto>(created);
-            return CreatedAtAction(nameof(GetRealtorByIdAsync), new { id = created.Id }, createdDto);
+            return Ok(createdDto);
         }
 
         /// <summary>Updates entire realtor</summary>
