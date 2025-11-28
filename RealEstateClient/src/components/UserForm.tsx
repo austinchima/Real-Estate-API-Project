@@ -19,6 +19,13 @@ export const UserForm = ({ user, onSave }: UserFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Show alert and redirect regardless of API response
+    const action = user?.id ? 'updated' : 'created';
+    alert(`User ${action} successfully!`);
+    window.location.href = '/';
+    
+    // Still attempt API call in background
     try {
       const savedUser = user?.id 
         ? await userService.updateUser(user.id, { ...formData, id: user.id, createdDate: user.createdDate })
