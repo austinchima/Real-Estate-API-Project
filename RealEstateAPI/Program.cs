@@ -15,6 +15,17 @@ DotNetEnv.Env.Load();
 builder.Services.AddControllers()
     .AddNewtonsoftJson(); // Required for JsonPatch support
 
+// Configure CORS to allow frontend access
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin()  // Allow all origins for APigee
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Configure Entity Framework Core with SQL Server
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,6 +81,16 @@ var app = builder.Build();
 // Global error handling - catches all exceptions and returns consistent JSON responses
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
+// Enable Swagger in all environments for testing
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Real Estate API v1");
+    options.RoutePrefix = "swagger";
+});
+
+// Enable CORS - must be before UseAuthorization
+app.UseCors("AllowFrontend");
 // Enable Swagger documentation in development environment
 if (app.Environment.IsDevelopment())
 {
@@ -82,6 +103,9 @@ if (app.Environment.IsDevelopment())
 }
 
 // Security and routing middleware
+// Comment out HTTPS redirection for ECS (ALB handles SSL)
+// app.UseHttpsRedirection();
+
 app.UseHttpsRedirection();
 app.UseCors("AllowReactApp");
 app.UseAuthorization();

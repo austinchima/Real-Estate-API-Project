@@ -36,7 +36,10 @@ namespace RealEstateAPI.Services
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found");
+            return user;
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
