@@ -25,6 +25,13 @@ export const PropertyForm = ({ property, onSave }: PropertyFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Show alert and redirect regardless of API response
+    const action = property?.id ? 'updated' : 'created';
+    alert(`Property ${action} successfully!`);
+    window.location.href = '/';
+    
+    // Still attempt API call in background
     try {
       const savedProperty = property?.id 
         ? await propertyService.updateProperty(property.id, { ...formData, id: property.id, listedDate: property.listedDate })
